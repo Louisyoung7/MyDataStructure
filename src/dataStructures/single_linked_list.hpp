@@ -68,7 +68,7 @@ public:
 
   /*
    * @brief 指定索引位置添加
-   * @throws insert out of range 越界添加
+   * @throw insert out of range 越界添加
    * @note time: O(n)
    */
   void insert(size_t index, int value) {
@@ -98,7 +98,7 @@ public:
 
   /*
    * @brief 头部删除
-   * @thorws popFront on empty list 从空链表中删除元素
+   * @throw popFront on empty list 从空链表中删除元素
    * @note time: O(1)
    */
   int popFront() {
@@ -119,7 +119,7 @@ public:
 
   /*
    * @brief 尾部删除
-   * @thorws popBack on empty list 从空链表中删除元素
+   * @throw popBack on empty list 从空链表中删除元素
    * @note O(n)
    */
   int popBack() {
@@ -146,10 +146,49 @@ public:
     return data;
   }
 
-  // 返回链表中节点的数量
+  /*
+   * @brief 指定索引位置删除
+   * 删除第一个会调用popFront
+   * 删除最后一个会调用popBack
+   * @throw pop out of range 越界删除
+   * @note time: O(n)
+   */
+  int popAtIndex(size_t index) {
+    if (index == 0) {
+      return popFront();
+    } else if (index == size_ - 1) {
+      return popBack();
+    } else if (index > 0 && index < size_ - 1) {
+      // 不是第一个也不是最后一个
+      // 获得要删除节点的前一个节点
+      Node *ptr = head_.get();
+      for (int i = 0; i < index - 1; ++i) {
+        ptr = ptr->next_.get();
+      }
+      // 创建unique_ptr转移所有权
+      unique_ptr<Node> node = std::move(ptr->next_);
+      ptr->next_ = std::move(node->next_);
+      int data = node->value_;
+      size_--;
+      return data;
+    } else {
+      throw out_of_range("pop out of range");
+    }
+  }
+
+  /*
+   * @brief 返回链表节点数
+   * @return 链表节点数
+   * @note time: O(1)
+   */
   size_t size() const { return size_; }
 
-  // 判断链表是否为空
+  /*
+   * @brief 判断链表是否为空
+   * @return true 为空
+   * @return false 不为空
+   * @note time: O(1)
+   */
   bool isEmpty() const { return size_ == 0; }
 
   // 清空链表

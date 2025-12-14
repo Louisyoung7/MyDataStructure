@@ -21,7 +21,10 @@ int main() {
   // // 头部删除
   // list1.popFront();
 
-  // 尾部删除
-  list1.popBack();
+  // // 尾部删除
+  // list1.popBack();
+
+  // 指定位置删除
+  list1.popAtIndex(3);
 
 }
