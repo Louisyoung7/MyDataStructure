@@ -35,5 +35,19 @@ public:
     // TODO
   }
 
-  
+  /*
+   * @brief 头部添加
+   * @note time: O(1)
+   */
+  void prepend(int value) {
+    unique_ptr<Node> node = make_unique<Node>(value);
+    node->next_ = std::move(head_); //? 为什么这里要用std::move?
+    head_ = std::move(node);
+    // 如果添加的是唯一一个元素，rear也要指向它
+    if (size_ == 0) {
+      rear_ = head_.get();
+    }
+    size_++;
+  }
+
 };
