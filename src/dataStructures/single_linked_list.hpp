@@ -50,4 +50,20 @@ public:
     size_++;
   }
 
+  /*
+   * @brief 尾部添加
+   * @note time: O(1)
+   */
+  void append(int value) {
+    unique_ptr<Node> node = make_unique<Node>(value);
+    if (size_ == 0) {
+      head_ = std::move(node);
+      rear_ = head_.get();
+    } else {
+      rear_->next_ = std::move(node);
+      rear_ = rear_->next_.get();
+    }
+    size_++;
+  }
+  
 };
