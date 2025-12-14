@@ -117,6 +117,35 @@ public:
     return data;
   }
 
+  /*
+   * @brief 尾部删除
+   * @thorws popBack on empty list 从空链表中删除元素
+   * @note O(n)
+   */
+  int popBack() {
+    // 检查链表是否为空
+    if (isEmpty()) {
+      throw std::runtime_error("popBack on empty list");
+    }
+    // 定义一个指针，指向最后一个节点的前一个节点
+    Node *ptr = head_.get();
+    while (ptr->next_.get() != rear_) {
+      ptr = ptr->next_.get();
+    }
+    unique_ptr<Node> node = std::move(ptr->next_);
+    ptr->next_ = nullptr;
+    // rear指向最后一个节点
+    rear_ = ptr;
+    int data = node->value_;
+    size_--;
+    // 如果删除后链表为空
+    if (size_ == 0) {
+      head_ = nullptr;
+      rear_ = nullptr;
+    }
+    return data;
+  }
+
   // 返回链表中节点的数量
   size_t size() const { return size_; }
 

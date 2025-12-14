@@ -18,7 +18,10 @@ int main() {
   // // 指定位置添加
   // list1.insert(3, 10);
 
-  // 头部删除
-  list1.popFront();
-  
+  // // 头部删除
+  // list1.popFront();
+
+  // 尾部删除
+  list1.popBack();
+
 }
