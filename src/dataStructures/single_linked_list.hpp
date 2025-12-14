@@ -65,5 +65,35 @@ public:
     }
     size_++;
   }
+
+  /*
+   * @brief 指定索引位置添加
+   * @throws insert out of range 越界添加
+   * @note time: O(n)
+   */
+  void insert(size_t index, int value) {
+    // 插入第一个
+    if (index == 0) {
+      prepend(value);
+    }
+    // 插入最后一个
+    else if (index == size_) {
+      append(value);
+    }
+    // 不是第一个也不是最后一个
+    else if (index > 0 && index < size_) {
+      // 定义一个指针，指向要插入位置的前一个节点
+      Node *ptr = head_.get();
+      for (int i = 0; i < index - 1; ++i) {
+        ptr = ptr->next_.get();
+      }
+      auto node = make_unique<Node>(value);
+      node->next_ = std::move(ptr->next_);
+      ptr->next_ = std::move(node);
+      size_++;
+    } else {
+      throw out_of_range("insert out of range");
+    }
+  }
   
 };

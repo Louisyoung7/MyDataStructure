@@ -14,4 +14,7 @@ int main() {
   for (int i = 0; i < 5; ++i) {
     list1.append(i);
   }
+
+  // 指定位置添加
+  list1.insert(3, 10);
 }
