@@ -95,5 +95,36 @@ public:
       throw out_of_range("insert out of range");
     }
   }
-  
+
+  /*
+   * @brief 头部删除
+   * @thorws popFront on empty list 从空链表中删除元素
+   * @note time: O(1)
+   */
+  int popFront() {
+    // 检查链表是否为空
+    if (isEmpty()) {
+      throw runtime_error("popFront on empty list"); //? 为什么用runtime_error?
+    }
+    unique_ptr<Node> node = std::move(head_);
+    head_ = std::move(node->next_);
+    int data = node->value_;
+    size_--;
+    // 如果删除后没有元素了，rear指向nullptr
+    if (size_ == 0) {
+      rear_ = nullptr;
+    }
+    return data;
+  }
+
+  // 返回链表中节点的数量
+  size_t size() const { return size_; }
+
+  // 判断链表是否为空
+  bool isEmpty() const { return size_ == 0; }
+
+  // 清空链表
+  void clear() {
+    // TODO
+  }
 };
