@@ -34,7 +34,7 @@ public:
    * 初始化成员变量
    */
   SingleLinkedList() : head_(nullptr), rear_(nullptr), size_(0) {}
-  ~SingleLinkedList() = default;  ///< 由于使用了智能指针，析构函数没有额外操作
+  ~SingleLinkedList() = default; ///< 由于使用了智能指针，析构函数没有额外操作
 
   /*
    * @brief 头部添加
@@ -180,16 +180,28 @@ public:
   /*
    * @brief 获取链表的第一个节点的值
    * @return 链表的第一个节点的值
+   * @throw getFront for empyt list 从空链表中获取节点
    * @note time: O(1)
    */
-  int getFront() { return head_->value_; }
+  int getFront() {
+    if (isEmpty()) {
+      throw runtime_error("getFront for empyt list");
+    }
+    return head_->value_;
+  }
 
   /*
    * @brief 获取链表的最后一个节点的值
    * @return 链表的最后一个节点的值
+   * @throw getBack for empty list 从空链表中获取节点
    * @note time: O(1)
    */
-  int getBack() { return rear_->value_; }
+  int getBack() {
+    if (isEmpty()) {
+      throw runtime_error("getBack for empty list");
+    }
+    return rear_->value_;
+  }
 
   /*
    * @brief 获取指定索引位置节点的值

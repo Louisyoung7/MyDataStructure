@@ -41,5 +41,5 @@ int main() {
   // cout << list1.get(3) << endl;
 
   // 修改指定索引的值
-  list1.set(1, 10);
+  list1.set(4, 10);
 }
