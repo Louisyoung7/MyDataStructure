@@ -2,10 +2,6 @@
 
 #include <memory>
 #include <stdexcept>
-using std::make_unique;
-using std::out_of_range;
-using std::runtime_error;
-using std::unique_ptr;
 
 /*
  * @brief 简单实现一个单链表
@@ -20,12 +16,12 @@ private:
    */
   struct Node {
     int value_;
-    unique_ptr<Node> next_; //? 为什么使用unique_ptr?
+    std::unique_ptr<Node> next_;
     explicit Node(int value) : value_(value), next_(nullptr) {}
   };
 
-  unique_ptr<Node> head_; ///< 一直占有头节点
-  Node *rear_ = nullptr;  //? 为什么这里的rear_又不用unique_ptr了?
+  std::unique_ptr<Node> head_; ///< 一直占有头节点
+  Node *rear_ = nullptr;  
   size_t size_ = 0;
 
 public:
@@ -41,8 +37,8 @@ public:
    * @note time: O(1)
    */
   void prepend(int value) {
-    unique_ptr<Node> node = make_unique<Node>(value);
-    node->next_ = std::move(head_); //? 为什么这里要用std::move?
+    std::unique_ptr<Node> node = std::make_unique<Node>(value);
+    node->next_ = std::move(head_); 
     head_ = std::move(node);
     // 如果添加的是唯一一个元素，rear也要指向它
     if (size_ == 0) {
@@ -56,7 +52,7 @@ public:
    * @note time: O(1)
    */
   void append(int value) {
-    unique_ptr<Node> node = make_unique<Node>(value);
+    std::unique_ptr<Node> node = std::make_unique<Node>(value);
     if (size_ == 0) {
       head_ = std::move(node);
       rear_ = head_.get();
@@ -88,12 +84,12 @@ public:
       for (int i = 0; i < index - 1; ++i) {
         ptr = ptr->next_.get();
       }
-      auto node = make_unique<Node>(value);
+      auto node = std::make_unique<Node>(value);
       node->next_ = std::move(ptr->next_);
       ptr->next_ = std::move(node);
       size_++;
     } else {
-      throw out_of_range("insert out of range");
+      throw std::out_of_range("insert out of range");
     }
   }
 
@@ -105,9 +101,9 @@ public:
   int popFront() {
     // 检查链表是否为空
     if (isEmpty()) {
-      throw runtime_error("popFront on empty list"); //? 为什么用runtime_error?
+      throw std::runtime_error("popFront on empty list");
     }
-    unique_ptr<Node> node = std::move(head_);
+    std::unique_ptr<Node> node = std::move(head_);
     head_ = std::move(node->next_);
     int data = node->value_;
     size_--;
@@ -133,7 +129,7 @@ public:
     while (ptr->next_.get() != rear_) {
       ptr = ptr->next_.get();
     }
-    unique_ptr<Node> node = std::move(ptr->next_);
+    std::unique_ptr<Node> node = std::move(ptr->next_);
     ptr->next_ = nullptr;
     // rear指向最后一个节点
     rear_ = ptr;
@@ -167,13 +163,13 @@ public:
         ptr = ptr->next_.get();
       }
       // 创建unique_ptr转移所有权
-      unique_ptr<Node> node = std::move(ptr->next_);
+      std::unique_ptr<Node> node = std::move(ptr->next_);
       ptr->next_ = std::move(node->next_);
       int data = node->value_;
       size_--;
       return data;
     } else {
-      throw out_of_range("pop out of range");
+      throw std::out_of_range("pop out of range");
     }
   }
 
@@ -185,7 +181,7 @@ public:
    */
   int getFront() {
     if (isEmpty()) {
-      throw runtime_error("getFront for empyt list");
+      throw std::runtime_error("getFront for empyt list");
     }
     return head_->value_;
   }
@@ -198,7 +194,7 @@ public:
    */
   int getBack() {
     if (isEmpty()) {
-      throw runtime_error("getBack for empty list");
+      throw std::runtime_error("getBack for empty list");
     }
     return rear_->value_;
   }
@@ -227,7 +223,7 @@ public:
       }
       return ptr->value_;
     } else {
-      throw out_of_range("get out of range");
+      throw std::out_of_range("get out of range");
     }
   }
 
@@ -240,7 +236,7 @@ public:
    */
   void set(size_t index, int value) {
     if (index >= size_) {
-      throw out_of_range("set out of range");
+      throw std::out_of_range("set out of range");
     }
     // 修改最后一个节点的值
     else if (index == size_ - 1) {
