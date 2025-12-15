@@ -4,10 +4,8 @@
 using std::cout;
 using std::endl;
 
-using List = SingleLinkedList;
-
 int main() {
-  List list1;
+  SingleLinkedList<int> list1;
 
   // // 头部添加
   // for (int i = 0; i < 5; ++i) {
