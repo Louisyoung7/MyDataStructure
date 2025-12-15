@@ -31,12 +31,15 @@ int main() {
   // // 指定位置删除
   // list1.popAtIndex(3);
 
-  // 获取第一个元素
-  cout << list1.getFront() << endl;
+  // // 获取第一个元素
+  // cout << list1.getFront() << endl;
 
-  // 获取最后一个元素
-  cout << list1.getBack() << endl;
+  // // 获取最后一个元素
+  // cout << list1.getBack() << endl;
 
-  // 获取指定索引元素
-  cout << list1.get(3) << endl;
+  // // 获取指定索引元素
+  // cout << list1.get(3) << endl;
+
+  // 修改指定索引的值
+  list1.set(1, 10);
 }

@@ -222,6 +222,31 @@ public:
   }
 
   /*
+   * @brief 修改指定索引位置的节点的值
+   * @param index 要指定的索引
+   * @param value 新的值
+   * @throw set out of range 越界修改
+   * @note time: O(n)
+   */
+  void set(size_t index, int value) {
+    if (index < 0 && index >= size_) {
+      throw out_of_range("set out of range");
+    }
+    // 修改最后一个节点的值
+    else if (index == size_ - 1) {
+      rear_->value_ = value;
+    }
+    // 修改不是最后一个节点的值
+    else {
+      Node *ptr = head_.get();
+      for (int i = 0; i < index; ++i) {
+        ptr = ptr->next_.get();
+      }
+      ptr->value_ = value;
+    }
+  }
+
+  /*
    * @brief 返回链表节点数
    * @return 链表节点数
    * @note time: O(1)
@@ -235,9 +260,4 @@ public:
    * @note time: O(1)
    */
   bool isEmpty() const { return size_ == 0; }
-
-  // 清空链表
-  void clear() {
-    // TODO
-  }
 };
