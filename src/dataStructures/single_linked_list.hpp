@@ -9,6 +9,9 @@ using std::unique_ptr;
 
 /*
  * @brief 简单实现一个单链表
+ * 没有虚拟头节点
+ * 维护了一个尾节点的指针
+ * 提供基本的增删查改功能
  */
 class SingleLinkedList {
 private:
@@ -173,6 +176,48 @@ public:
       return data;
     } else {
       throw out_of_range("pop out of range");
+    }
+  }
+
+  /*
+   * @brief 获取链表的第一个节点的值
+   * @return 链表的第一个节点的值
+   * @note time: O(1)
+   */
+  int getFront() { return head_->value_; }
+
+  /*
+   * @brief 获取链表的最后一个节点的值
+   * @return 链表的最后一个节点的值
+   * @note time: O(1)
+   */
+  int getBack() { return rear_->value_; }
+
+  /*
+   * @brief 获取指定索引位置节点的值
+   * @param index 要指定的节点
+   * @return 指定索引位置节点的值
+   * @throw get out of range 越界获取
+   * @note time: O(n)
+   */
+  int get(size_t index) {
+    // 获取第一个节点的值
+    if (index == 0) {
+      return getFront();
+    }
+    // 获取最后一个节点的值
+    else if (index == size_ - 1) {
+      return getBack();
+    }
+    // 不是第一个也不是最后一个
+    else if (index > 0 && index < size_ - 1) {
+      Node *ptr = head_.get(); ///< 获取第一个节点的指针
+      for (int i = 0; i < index; ++i) {
+        ptr = ptr->next_.get();
+      }
+      return ptr->value_;
+    } else {
+      throw out_of_range("get out of range");
     }
   }
 

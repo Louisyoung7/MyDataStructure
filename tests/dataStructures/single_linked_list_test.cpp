@@ -1,5 +1,9 @@
 #include "dataStructures/single_linked_list.hpp"
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 using List = SingleLinkedList;
 
 int main() {
@@ -24,7 +28,15 @@ int main() {
   // // 尾部删除
   // list1.popBack();
 
-  // 指定位置删除
-  list1.popAtIndex(3);
+  // // 指定位置删除
+  // list1.popAtIndex(3);
 
+  // 获取第一个元素
+  cout << list1.getFront() << endl;
+
+  // 获取最后一个元素
+  cout << list1.getBack() << endl;
+
+  // 获取指定索引元素
+  cout << list1.get(3) << endl;
 }
