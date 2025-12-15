@@ -34,9 +34,7 @@ public:
    * 初始化成员变量
    */
   SingleLinkedList() : head_(nullptr), rear_(nullptr), size_(0) {}
-  ~SingleLinkedList() {
-    // TODO
-  }
+  ~SingleLinkedList() = default;  ///< 由于使用了智能指针，析构函数没有额外操作
 
   /*
    * @brief 头部添加
@@ -229,7 +227,7 @@ public:
    * @note time: O(n)
    */
   void set(size_t index, int value) {
-    if (index < 0 && index >= size_) {
+    if (index >= size_) {
       throw out_of_range("set out of range");
     }
     // 修改最后一个节点的值
