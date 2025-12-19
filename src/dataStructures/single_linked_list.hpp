@@ -11,16 +11,26 @@
  */
 template <class T>
 class SingleLinkedList {
+   public:
+    using value_type = T;
+    using size_type = std::size_t;
+    using pointer = value_type *;
+    using const_pointer = const value_type *;
+    using reference = value_type &;
+    using const_reference = const value_type &;
+
    private:
     /**
      * @brief 单链表中的节点
      */
     struct Node {
-        T value_;
+        value_type value_;
         std::unique_ptr<Node> next_;
         Node() = default;
-        explicit Node(const T& value) : value_(value), next_(nullptr) {}
-        explicit Node(T&& value) noexcept : value_(std::move(value)), next_(nullptr) {}
+        explicit Node(const_reference value) : value_(value), next_(nullptr) {
+        }
+        explicit Node(T &&value) noexcept : value_(std::move(value)), next_(nullptr) {
+        }
     };
 
     std::unique_ptr<Node> head_;  ///< 一直占有头节点
@@ -40,7 +50,7 @@ class SingleLinkedList {
      * @brief 头部添加
      * @note time: O(1)
      */
-    void prepend(T value) {
+    void prepend(value_type value) {
         std::unique_ptr<Node> node = std::make_unique<Node>(value);
         node->next_ = std::move(head_);
         head_ = std::move(node);
@@ -55,7 +65,7 @@ class SingleLinkedList {
      * @brief 尾部添加
      * @note time: O(1)
      */
-    void append(T value) {
+    void append(value_type value) {
         std::unique_ptr<Node> node = std::make_unique<Node>(value);
         if (size_ == 0) {
             head_ = std::move(node);
@@ -72,7 +82,7 @@ class SingleLinkedList {
      * @throw insert out of range 越界添加
      * @note time: O(n)
      */
-    void insert(size_t index, T value) {
+    void insert(size_type index, value_type value) {
         // 插入第一个
         if (index == 0) {
             prepend(value);
@@ -102,14 +112,14 @@ class SingleLinkedList {
      * @throw popFront on empty list 从空链表中删除元素
      * @note time: O(1)
      */
-    T popFront() {
+    value_type popFront() {
         // 检查链表是否为空
         if (isEmpty()) {
             throw std::runtime_error("popFront on empty list");
         }
         std::unique_ptr<Node> node = std::move(head_);
         head_ = std::move(node->next_);
-        T data = node->value_;
+        value_type data = node->value_;
         size_--;
         // 如果删除后没有元素了，rear指向nullptr
         if (size_ == 0) {
@@ -123,7 +133,7 @@ class SingleLinkedList {
      * @throw popBack on empty list 从空链表中删除元素
      * @note O(n)
      */
-    T popBack() {
+    value_type popBack() {
         // 检查链表是否为空
         if (isEmpty()) {
             throw std::runtime_error("popBack on empty list");
@@ -137,7 +147,7 @@ class SingleLinkedList {
         ptr->next_ = nullptr;
         // rear指向最后一个节点
         rear_ = ptr;
-        T data = node->value_;
+        value_type data = node->value_;
         size_--;
         // 如果删除后链表为空
         if (size_ == 0) {
@@ -154,7 +164,7 @@ class SingleLinkedList {
      * @throw pop out of range 越界删除
      * @note time: O(n)
      */
-    T popAtIndex(size_t index) {
+    value_type popAtIndex(size_type index) {
         if (index == 0) {
             return popFront();
         } else if (index == size_ - 1) {
@@ -169,7 +179,7 @@ class SingleLinkedList {
             // 创建unique_ptr转移所有权
             std::unique_ptr<Node> node = std::move(ptr->next_);
             ptr->next_ = std::move(node->next_);
-            T data = node->value_;
+            value_type data = node->value_;
             size_--;
             return data;
         } else {
@@ -183,7 +193,7 @@ class SingleLinkedList {
      * @throw getFront for empyt list 从空链表中获取节点
      * @note time: O(1)
      */
-    T getFront() {
+    value_type getFront() {
         if (isEmpty()) {
             throw std::runtime_error("getFront for empyt list");
         }
@@ -196,7 +206,7 @@ class SingleLinkedList {
      * @throw getBack for empty list 从空链表中获取节点
      * @note time: O(1)
      */
-    T getBack() {
+    value_type getBack() {
         if (isEmpty()) {
             throw std::runtime_error("getBack for empty list");
         }
@@ -210,7 +220,7 @@ class SingleLinkedList {
      * @throw get out of range 越界获取
      * @note time: O(n)
      */
-    T get(size_t index) {
+    value_type get(size_type index) {
         // 获取第一个节点的值
         if (index == 0) {
             return getFront();
@@ -238,7 +248,7 @@ class SingleLinkedList {
      * @throw set out of range 越界修改
      * @note time: O(n)
      */
-    void set(size_t index, T value) {
+    void set(size_type index, value_type value) {
         if (index >= size_) {
             throw std::out_of_range("set out of range");
         }
@@ -261,7 +271,7 @@ class SingleLinkedList {
      * @return 链表节点数
      * @note time: O(1)
      */
-    size_t size() const {
+    size_type size() const {
         return size_;
     }
 

@@ -28,5 +28,3 @@ AllowShortIfStatementsOnASingleLine: Never
 SortIncludes: true
 # 断开模板声明
 AlwaysBreakTemplateDeclarations: Yes
-# 空函数体保持在同一行
-AllowShortFunctionsOnASingleLine: All
