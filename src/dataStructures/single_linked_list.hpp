@@ -35,7 +35,7 @@ class SingleLinkedList {
 
     std::unique_ptr<Node> head_;  ///< 一直占有头节点
     Node *rear_ = nullptr;        ///< 只作为观察指针，不实际拥有节点
-    size_t size_ = 0;
+    size_type size_ = 0;
 
    public:
     /**
@@ -50,7 +50,7 @@ class SingleLinkedList {
      * @brief 头部添加
      * @note time: O(1)
      */
-    void prepend(value_type value) {
+    void push_front(value_type value) {
         std::unique_ptr<Node> node = std::make_unique<Node>(value);
         node->next_ = std::move(head_);
         head_ = std::move(node);
@@ -65,7 +65,7 @@ class SingleLinkedList {
      * @brief 尾部添加
      * @note time: O(1)
      */
-    void append(value_type value) {
+    void push_back(value_type value) {
         std::unique_ptr<Node> node = std::make_unique<Node>(value);
         if (size_ == 0) {
             head_ = std::move(node);
@@ -85,11 +85,11 @@ class SingleLinkedList {
     void insert(size_type index, value_type value) {
         // 插入第一个
         if (index == 0) {
-            prepend(value);
+            push_front(value);
         }
         // 插入最后一个
         else if (index == size_) {
-            append(value);
+            push_back(value);
         }
         // 不是第一个也不是最后一个
         else if (index > 0 && index < size_) {
@@ -109,13 +109,13 @@ class SingleLinkedList {
 
     /**
      * @brief 头部删除
-     * @throw popFront on empty list 从空链表中删除元素
+     * @throw pop_front on empty list 从空链表中删除元素
      * @note time: O(1)
      */
-    value_type popFront() {
+    value_type pop_front() {
         // 检查链表是否为空
-        if (isEmpty()) {
-            throw std::runtime_error("popFront on empty list");
+        if (is_empty()) {
+            throw std::runtime_error("pop_front on empty list");
         }
         std::unique_ptr<Node> node = std::move(head_);
         head_ = std::move(node->next_);
@@ -133,9 +133,9 @@ class SingleLinkedList {
      * @throw popBack on empty list 从空链表中删除元素
      * @note O(n)
      */
-    value_type popBack() {
+    value_type pop_back() {
         // 检查链表是否为空
-        if (isEmpty()) {
+        if (is_empty()) {
             throw std::runtime_error("popBack on empty list");
         }
         // 定义一个指针，指向最后一个节点的前一个节点
@@ -164,11 +164,11 @@ class SingleLinkedList {
      * @throw pop out of range 越界删除
      * @note time: O(n)
      */
-    value_type popAtIndex(size_type index) {
+    value_type pop_at_index(size_type index) {
         if (index == 0) {
-            return popFront();
+            return pop_front();
         } else if (index == size_ - 1) {
-            return popBack();
+            return pop_back();
         } else if (index > 0 && index < size_ - 1) {
             // 不是第一个也不是最后一个
             // 获得要删除节点的前一个节点
@@ -193,8 +193,8 @@ class SingleLinkedList {
      * @throw getFront for empyt list 从空链表中获取节点
      * @note time: O(1)
      */
-    value_type getFront() {
-        if (isEmpty()) {
+    value_type get_front() {
+        if (is_empty()) {
             throw std::runtime_error("getFront for empyt list");
         }
         return head_->value_;
@@ -206,8 +206,8 @@ class SingleLinkedList {
      * @throw getBack for empty list 从空链表中获取节点
      * @note time: O(1)
      */
-    value_type getBack() {
-        if (isEmpty()) {
+    value_type get_back() {
+        if (is_empty()) {
             throw std::runtime_error("getBack for empty list");
         }
         return rear_->value_;
@@ -223,11 +223,11 @@ class SingleLinkedList {
     value_type get(size_type index) {
         // 获取第一个节点的值
         if (index == 0) {
-            return getFront();
+            return get_front();
         }
         // 获取最后一个节点的值
         else if (index == size_ - 1) {
-            return getBack();
+            return get_back();
         }
         // 不是第一个也不是最后一个
         else if (index > 0 && index < size_ - 1) {
@@ -281,7 +281,7 @@ class SingleLinkedList {
      * @return false 不为空
      * @note time: O(1)
      */
-    bool isEmpty() const {
+    bool is_empty() const {
         return size_ == 0;
     }
 };
